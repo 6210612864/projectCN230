@@ -8,9 +8,10 @@ drop table if exists Product;
 drop table if exists Company;
 drop table if exists Journal;
 
+pragma foreign_keys = on;
 create table Customer
 (
-	cID int,
+	cID int not null ,
 	cName varchar(100) not null,
 	Address varchar(255) not null,
 	constraint Customer_pk
@@ -19,7 +20,7 @@ create table Customer
 
 create table Product
 (
-	pID int,
+	pID int not null ,
 	pName varchar(100) null,
 	pType varchar(50) null,
 	constraint Product_pk
@@ -29,7 +30,7 @@ create table Product
 create table Company
 (
 	companyName varchar(100) not null,
-	TIN int auto_increment,
+	TIN int not null ,
 	constraint Company_pk
 		primary key (TIN)
 );
@@ -44,7 +45,7 @@ create table Invoice
 
 create table Journal
 (
-	jID int,
+	jID int not null,
 	jName varchar(100) not null,
 	jType varchar(100) not null,
 	constraint Journal_pk
@@ -52,23 +53,25 @@ create table Journal
 );
 
 alter table Product
-    add TIN int references Company (TIN);
+    add TIN int references Company (TIN) ON UPDATE CASCADE ON DELETE CASCADE;
 
 alter table Invoice
-    add TIN int references Company (TIN);
+    add TIN int references Company (TIN) ON UPDATE CASCADE ON DELETE CASCADE;
 alter table Invoice
-    add cID int references Customer (cID);
+    add cID int references Customer (cID) ON UPDATE CASCADE ON DELETE CASCADE;
 alter table Invoice
-    add jID int references Journal (jID);
+    add jID int references Journal (jID) ON UPDATE CASCADE ON DELETE CASCADE;
 
 create table Buy
 (
 	cID int not null,
 	pID int not null,
 	constraint Buy_Customer_cID_fk
-		foreign key (cID) references Customer (cID),
+		foreign key (cID) references Customer (cID)
+			ON UPDATE CASCADE ON DELETE CASCADE,
 	constraint Buy_Product_pID_fk
 		foreign key (pID) references Product (pID)
+			ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 create table Assign_in
@@ -77,9 +80,11 @@ create table Assign_in
     invoiceID int not null,
     Date varchar(50) null,
     constraint Assign_in_Product_pID_fk
-        foreign key (pID) references Product (pID),
+        foreign key (pID) references Product (pID)
+        	ON UPDATE CASCADE ON DELETE CASCADE,
     constraint Assign_in_Invoice_invoiceID_fk
         foreign key (invoiceID) references Invoice (InvoiceID)
+        	ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 create table Contact
@@ -88,8 +93,8 @@ create table Contact
     cContact varchar(255),
     constraint Contact_Customer_cID_fk
         foreign key (cId) references Customer (cID)
+        	ON UPDATE CASCADE ON DELETE CASCADE
 );
-
 
 insert into customer values ( 1, 'Jacinda Ardern', 'New Zealand' );
 insert into customer values ( 2, 'Justin Trudeau', 'Canada');
