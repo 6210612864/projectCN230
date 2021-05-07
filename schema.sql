@@ -53,14 +53,14 @@ create table Journal
 );
 
 alter table Product
-    add TIN int references Company (TIN) ON UPDATE CASCADE ON DELETE CASCADE;
+    add TIN int not null references Company (TIN) ON UPDATE CASCADE ON DELETE CASCADE;
 
 alter table Invoice
-    add TIN int references Company (TIN) ON UPDATE CASCADE ON DELETE CASCADE;
+    add TIN int not null references Company (TIN) ON UPDATE CASCADE ON DELETE CASCADE;
 alter table Invoice
-    add cID int references Customer (cID) ON UPDATE CASCADE ON DELETE CASCADE;
+    add cID int not null references Customer (cID) ON UPDATE CASCADE ON DELETE CASCADE;
 alter table Invoice
-    add jID int references Journal (jID) ON UPDATE CASCADE ON DELETE CASCADE;
+    add jID int not null references Journal (jID) ON UPDATE CASCADE ON DELETE CASCADE;
 
 create table Buy
 (
@@ -95,6 +95,8 @@ create table Contact
         foreign key (cId) references Customer (cID)
         	ON UPDATE CASCADE ON DELETE CASCADE
 );
+
+
 
 insert into customer values ( 1, 'Jacinda Ardern', 'New Zealand' );
 insert into customer values ( 2, 'Justin Trudeau', 'Canada');
@@ -207,3 +209,12 @@ insert into Assign_in values (3, 200004, '24 April 2021');
 insert into Assign_in values (4, 300002, '30 April 2021');
 insert into Assign_in values (2, 100008, '05 May 2021');
 insert into Assign_in values (4, 300003, '22 May 2021');
+
+insert into Contact values (1, 'j.ardern@ministers.govt.nz');
+insert into Contact values (1, '+64 4 817 8700');
+insert into Contact values (2, 'https://pm.gc.ca/en/connect/contact');
+insert into Contact values (3, 'https://www.elysee.fr/en/contact/');
+insert into Contact values (4, null);
+insert into Contact values (5, null);
+insert into Contact values (6, null);
+insert into Contact values (7, null);
