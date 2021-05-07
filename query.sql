@@ -18,4 +18,27 @@ inner join
         join company c on c.TIN = i.TIN
     group by cName
 ) total using (cName)
-group by i.cID
+group by i.cID;
+
+Insert into Customer values (20, ‘Yoshihide Suga’, ‘Japan’);
+
+update invoice
+set Cost = Cost * 0.07
+where InvoiceID in (
+select invoiceID
+from (select i.invoiceID
+    from invoice i
+    join assign_in ai on i.InvoiceID = ai.invoiceID
+    where Date like '%2020%') as sl
+    );
+
+delete from invoice
+where InvoiceID in (
+    select invoiceID
+    from (
+        select i.invoiceID
+        from invoice i
+            join assign_in ai on i.InvoiceID = ai.invoiceID
+        where Date like '%Feb%'
+        ) as sl
+    );
